@@ -1,0 +1,31 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Col, Container, Row } from "reactstrap";
+import Helmet from "../components/Helmet/Helmet";
+import CommonSection from "../components/UI/CommonSection";
+import '../styles/checkoutSuccess.css'
+
+const CheckoutSuccess = () => {
+    const navigate = useNavigate();
+  return (
+    <Helmet title="Đặt Hàng Thành Công">
+      <CommonSection title="Đặt Hàng Thành Công" />
+      <section>
+        <Container>
+          <Row>
+            <Col className="text-center checkout__success">
+                <h6>Chúc mừng quý khách đặt hàng thành công</h6>
+                <p>Mã đơn hàng của quý khách là:</p>
+                <h5>DHMK000260</h5>
+                <p>Chùng tôi sẽ liên hệ quý khách trong thời gian sớm nhất</p>
+                <p>Chúc quý khách có một ngày tốt lành</p>
+                <button className="buy__btn" onClick={() => navigate('/cua-hang')}>Tiếp tục mua hàng</button>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+    </Helmet>
+  );
+};
+
+export default CheckoutSuccess;

@@ -110,18 +110,13 @@ const Header = () => {
   };
 
   const dispatch = useDispatch();
-  
-  // Delete Love Product
-  const [idDeleteItem, setIdDeleteItem] = useState();
-
-  const deleteLoveItem = () => {
+  // Delete Love Item
+  const deleteLoveItem = (idDeleteItem) => {
     dispatch(favoriteActions.deleteLoveItem(idDeleteItem));
   };
-  useEffect(deleteLoveItem);
 
   // Add To Cart
-  const [idLoveItem, setIdLoveItem] = useState();
-  const addToCart = () => {
+  const addToCart = (idLoveItem) => {
     const loveItem = products.find((item) => {
       return item._id === idLoveItem;
     });
@@ -136,10 +131,8 @@ const Header = () => {
           quantity: 1,
         })
       );
-
     idLoveItem && toast.success("Sản phẩm đã được thêm vào giỏ hàng");
   };
-  useEffect(addToCart, [idLoveItem]);
 
   return (
     <header className="header" ref={headerRef}>
@@ -214,11 +207,11 @@ const Header = () => {
                             <div className="love__product-icon">
                               <i
                                 className="ri-delete-bin-line"
-                                onClick={() => setIdDeleteItem(item.id)}
+                                onClick={() => deleteLoveItem(item.id)}
                               ></i>
                               <i
                                 className="ri-shopping-cart-line"
-                                onClick={() => setIdLoveItem(item.id)}
+                                onClick={() => addToCart(item.id)}
                               ></i>
                             </div>
                           </div>

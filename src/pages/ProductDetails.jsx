@@ -234,7 +234,7 @@ const ProductDetails = () => {
             </Col>
 
             <Col lg="12" className="mb-1">
-              <h2 className="related__title">Có Thể Bạn Sẽ Thích</h2>
+              <h2 className="related__title">Cây Cảnh Cùng Loại</h2>
             </Col>
 
             <ProductsList data={relatedProducts} />

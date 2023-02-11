@@ -3,9 +3,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Col, Container, Row } from "reactstrap";
+import ReactLoading from 'react-loading';
+
 import Helmet from "../components/Helmet/Helmet";
 import "../styles/home.css";
-import { Col, Container, Row } from "reactstrap";
 import decorateImg from "../assets/images/xbg_tit.png.pagespeed.ic.vrv94MdjpM.png";
 import Services from "../services/Services";
 import ProductsList from "../components/UI/ProductsList";
@@ -88,7 +90,7 @@ const Home = () => {
             </Col>
 
             {loading ? (
-              <h5 className="fw-bold">Loading.......</h5>
+                <ReactLoading className="loading__react" type={"spin"} color={'#1d6233'} height={80} width={80} />
             ) : (
               <ProductsList data={trendingProducts} />
             )}
@@ -128,7 +130,7 @@ const Home = () => {
               <h2 className="section__title">Sản Phẩm Mới</h2>
             </Col>
             {loading ? (
-              <h5 className="fw-bold">Loading.......</h5>
+              <ReactLoading className="loading__react" type={"spin"} color={'#1d6233'} height={80} width={80} />
             ) : (
               <ProductsList data={newProducts} />
             )}

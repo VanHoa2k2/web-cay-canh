@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "reactstrap";
+import ReactLoading from 'react-loading';
 import { db } from "../firebase.config"
 import { doc, deleteDoc } from "firebase/firestore"
 
@@ -40,7 +41,7 @@ const AllProducts = () => {
               </thead>
               <tbody>
                 {loading ? (
-                  <h4 className="py-5 text-center fw-bold">Loading.......</h4>
+                  <ReactLoading className="loading__react" type={"spin"} color={'#1d6233'} height={100} width={100} />
                 ) : (
                   products.map((item) => (
                     <tr key={item.id}>

@@ -4,6 +4,7 @@ import Helmet from "../components/Helmet/Helmet";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
+import ReactLoading from 'react-loading';
 import { Container, Row, Col, Form, FormGroup } from "reactstrap";
 import { Link } from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -107,7 +108,7 @@ const Signup = () => {
           <Row>
             {loading ? (
               <Col lg="12" className="text-center">
-                <h5 className="fw-bold">Loading.....</h5>
+                  <ReactLoading className="loading__react mt-4" type={"spin"} color={'#1d6233'} height={110} width={110}/>
               </Col>
             ) : (
               <Col lg="6" className="m-auto text-center">

@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase.config";
 import { toast } from "react-toastify";
+import ReactLoading from 'react-loading';
 import { useFormik } from "formik"
 // import * as Yup from "yup"
 
@@ -59,7 +60,7 @@ const Login = () => {
           <Row>
             {loading ? (
               <Col lg="12" className="text-center">
-                <h5 className="fw-bold">Loading</h5>
+                <ReactLoading className="loading__react mt-4" type={"spin"} color={'#1d6233'} height={80} width={80}/>
               </Col>
             ) : (
               <Col lg="6" className="m-auto text-center">

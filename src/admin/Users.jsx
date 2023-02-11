@@ -1,7 +1,8 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
-import useGetData from "../custom-hooks/useGetData";
+import ReactLoading from 'react-loading';
 
+import useGetData from "../custom-hooks/useGetData";
 import { deleteDoc, doc} from "firebase/firestore"
 import { db } from "../firebase.config"
 import { toast } from "react-toastify"
@@ -32,7 +33,7 @@ const Users = () => {
               </thead>
               <tbody>
                 {loading ? (
-                  <h5 className="pt-5 fw-bold">Loading......</h5>
+                  <ReactLoading className="loading__react" type={"spin"} color={'#1d6233'} height={100} width={100} />
                 ) : (
                   usersData?.map((user) => (
                     <tr key={user.uid}>

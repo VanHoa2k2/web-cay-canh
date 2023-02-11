@@ -5,6 +5,7 @@ import Shop from '../pages/Shop'
 import Cart from '../pages/Cart'
 import ProductDetails from '../pages/ProductDetails'
 import Checkout from '../pages/Checkout'
+import CheckoutSuccess from '../pages/CheckoutSuccess'
 import Login from '../pages/Login'
 import Signup from '../pages/Signup'
 import ProtectedRoute from '../Routers/ProtectedRoute'
@@ -24,6 +25,7 @@ const Routers = () => {
 
     <Route path='/*' element={<ProtectedRoute/>}>
       <Route path='thanh-toan' element={<Checkout/>}/>
+      <Route path='thanh-toan-thanh-cong' element={<CheckoutSuccess/>}/>
       <Route path='admin' element={<Dashboard/>}/>
       <Route path='admin/all-products' element={<AllProducts/>}/>
       <Route path='admin/add-product' element={<AddProduct/>}/>

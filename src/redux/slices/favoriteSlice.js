@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const initialState = {
   favoriteItems: localStorage.getItem("loveItems") ? JSON.parse(localStorage.getItem("loveItems")) : [],
   totalLoveProduct: localStorage.getItem("totalLoveItems") ? JSON.parse(localStorage.getItem("totalLoveItems")) : 0,
@@ -17,7 +16,7 @@ const favoriteSlice = createSlice({
       const existingItem = state.favoriteItems.find(
         (item) => item.id === newItem.id
       );
-      console.log(existingItem)
+
       if(!existingItem) {
         state.favoriteItems.push({
           id: newItem.id,

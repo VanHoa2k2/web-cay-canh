@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
+import { useLocation } from "react-router-dom";
+import ReactLoading from 'react-loading';
 import { Container, Row, Col } from "reactstrap";
+
 import CommonSection from "../components/UI/CommonSection";
 import Helmet from "../components/Helmet/Helmet";
 import ProductsList from "../components/UI/ProductsList";
@@ -175,12 +177,13 @@ const Shop = () => {
                   <Row>
                     {productsData.length === 0 ? (
                       loading ? (
-                        <h5 className="fw-bold">Loading.......</h5>
+                        <ReactLoading className="loading__react mt-4" type={"spin"} color={'#1d6233'} height={110} width={110}/>
                       ) : (
                         <ProductsList data={products} />
+
                       )
                     ) : loading ? (
-                      <h5 className="fw-bold">Loading.......</h5>
+                        <ReactLoading className="loading__react mt-4" type={"spin"} color={'#1d6233'} height={110} width={110} />
                     ) : (
                       <ProductsList data={productsData} />
                     )}

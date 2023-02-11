@@ -4,6 +4,10 @@
     border: 1px solid var(--primary-color);
 }
 
+.product__img {
+    overflow: hidden;
+}
+
 .product__img img {
     /* height: 320px; */
     object-fit: contain;

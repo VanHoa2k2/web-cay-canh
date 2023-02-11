@@ -6,11 +6,13 @@ import { Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../../redux/slices/cartSlice";
 import { favoriteActions } from "../../redux/slices/favoriteSlice";
 
 const ProductCard = ({ item }) => {
+  const lovesProduct = useSelector((state) => state.favorite.favoriteItems);
+  const toggleLoved = lovesProduct.find((itemLove) => itemLove.id === item._id)
   const dispatch = useDispatch();
    
   function addToCart() {
@@ -27,17 +29,20 @@ const ProductCard = ({ item }) => {
   }
 
   const addToFavorite = () => {
-    dispatch(
-      favoriteActions.addFavoriteItem({
-        id: item._id,
-        productName: item.productName,
-        category: item.category,
-        imgUrl: item.productImg[0].imgUrl,
-        price: item.price,
-      })
-    );
-
-    toast.success("Sản phẩm đã được thêm vào mục yêu thích");
+    if(!toggleLoved) {
+      dispatch(
+        favoriteActions.addFavoriteItem({
+          id: item._id,
+          productName: item.productName,
+          category: item.category,
+          imgUrl: item.productImg[0].imgUrl,
+          price: item.price,
+        })
+      );
+      toast.success("Sản phẩm đã được gỡ vào mục yêu thích");
+    } else {
+      dispatch(favoriteActions.deleteLoveItem(item._id));
+    }
   };
 
   return (
@@ -45,7 +50,7 @@ const ProductCard = ({ item }) => {
       <div className="product__item">
         <div className="product__img">
           <Link to={`/cua-hang/${item._id}`}>
-            <motion.img whileHover={{ scale: 0.9 }} src={item.productImg[0].imgUrl} alt=""/>
+            <motion.img whileHover={{ scale: 1.1 }} src={item.productImg[0].imgUrl} alt=""/>
           </Link>
         </div>
         <div className="p-1 product__info">
@@ -63,7 +68,7 @@ const ProductCard = ({ item }) => {
               className="product__favorite"
               onClick={addToFavorite}
             >
-              <i className="ri-heart-line"></i>
+              {toggleLoved ? <i style={{color: '#d61212'}} className="ri-heart-fill"></i> : <i className="ri-heart-line"></i>}
             </motion.span>
             <motion.span whileTap={{ scale: 1.2 }} onClick={addToCart}>
               <i className="ri-add-line"></i>
