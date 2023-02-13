@@ -72,6 +72,7 @@ const Login = () => {
                       id="email"
                       name="email"
                       placeholder="Nhập email của bạn"
+                      className={errEmail && "errorOutline"}
                       value={formik.values.email}
                       onChange={formik.handleChange}
                     />
@@ -84,6 +85,7 @@ const Login = () => {
                       id="password"
                       name="password"
                       placeholder="Nhập mật khẩu của bạn"
+                      className={errPassword && "errorOutline"}
                       value={formik.values.password}
                       onChange={formik.handleChange}
                     />

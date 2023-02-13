@@ -120,6 +120,7 @@ const Signup = () => {
                       id="username"
                       name="username"
                       placeholder="Tên tài khoản"
+                      className={formik.errors.username && "errorOutline"}
                       value={formik.values.username}
                       onChange={formik.handleChange}
                     />
@@ -134,6 +135,7 @@ const Signup = () => {
                       placeholder="Nhập email của bạn"
                       id="email"
                       name="email"
+                      className={formik.errors.email && "errorOutline"}
                       value={formik.values.email}
                       onChange={formik.handleChange}
                     />
@@ -148,6 +150,7 @@ const Signup = () => {
                       placeholder="Nhập mật khẩu của bạn"
                       id="password"
                       name="password"
+                      className={formik.errors.password && "errorOutline"}
                       value={formik.values.password}
                       onChange={formik.handleChange}
                     />
@@ -162,6 +165,7 @@ const Signup = () => {
                       placeholder="Xác thực mật khẩu của bạn"
                       id="confirmedPassword"
                       name="confirmedPassword"
+                      className={formik.errors.confirmedPassword && "errorOutline"}
                       value={formik.values.confirmedPassword}
                       onChange={formik.handleChange}
                     />

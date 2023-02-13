@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
 
 import { useLocation } from "react-router-dom";
-import ReactLoading from 'react-loading';
+import ReactLoading from "react-loading";
 import { Container, Row, Col } from "reactstrap";
 
 import CommonSection from "../components/UI/CommonSection";
 import Helmet from "../components/Helmet/Helmet";
 import ProductsList from "../components/UI/ProductsList";
+import Pagination from "../components/UI/Pagination";
+
 import "../styles/shop.css";
 import axios from "axios";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(12);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -28,7 +32,18 @@ const Shop = () => {
   const [productsData, setProductsData] = useState(products);
   const location = useLocation();
   const valueLocation = location.state;
-  const valueHome = valueLocation && valueLocation.valueCategory
+  const valueHome = valueLocation && valueLocation.valueCategory;
+  console.log(productsData)
+  // Get current posts
+  const indexOfLastproduct = currentPage * postsPerPage;
+  const indexOfFirstproduct = indexOfLastproduct - postsPerPage;
+  const currentproducts =
+    productsData.length === 0
+      ? products.slice(indexOfFirstproduct, indexOfLastproduct)
+      : productsData.slice(indexOfFirstproduct, indexOfLastproduct);
+  console.log(currentproducts)
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   // chon danh muc
   const handleFilter = (value) => {
@@ -43,6 +58,7 @@ const Shop = () => {
         (item) => item.category === "Cây cảnh để bàn"
       );
       setProductsData(filteredProducts);
+      setCurrentPage(1)
     }
 
     if (filterValue === "thuy-sinh") {
@@ -50,6 +66,7 @@ const Shop = () => {
         (item) => item.category === "Cây cảnh thủy sinh"
       );
       setProductsData(filteredProducts);
+      setCurrentPage(1)
     }
 
     if (filterValue === "sen-da-xuong-rong") {
@@ -57,6 +74,7 @@ const Shop = () => {
         (item) => item.category === "Sen đá, xương rồng"
       );
       setProductsData(filteredProducts);
+      setCurrentPage(1)
     }
 
     if (filterValue === "noi-that") {
@@ -64,6 +82,7 @@ const Shop = () => {
         (item) => item.category === "Cây cảnh nội thất"
       );
       setProductsData(filteredProducts);
+      setCurrentPage(1)
     }
 
     if (filterValue === "bonsai") {
@@ -71,52 +90,50 @@ const Shop = () => {
         (item) => item.category === "Cây bonsai"
       );
       setProductsData(filteredProducts);
+      setCurrentPage(1)
     }
-
-    // sortRef.current.value = "all";
   };
 
   useEffect(() => {
-    handleFilter(valueHome)
-  },[products])
+    handleFilter(valueHome);
+  }, [products]);
 
   // tim kiem tang dan / giam dan
   const sortProducts = (value) => {
     const selectSort = value;
 
-    const productsCopy = [...productsData]
-    if(productsCopy.length > 0) {
+    const productsCopy = [...productsData];
+    if (productsCopy.length > 0) {
       productsCopy.sort((priceA, priceB) => {
         if (selectSort === "all") {
           return priceA.id - priceB.id;
         }
-  
+
         if (selectSort === "ascending") {
           return priceA.price - priceB.price;
         }
-  
+
         if (selectSort === "descending") {
           return priceB.price - priceA.price;
         }
-      })
+      });
       setProductsData(productsCopy);
-
     } else {
-      const productsCopyDefault = [...products]
+      const productsCopyDefault = [...products];
 
       productsCopyDefault.sort((priceA, priceB) => {
         if (selectSort === "all") {
           return priceA.id - priceB.id;
         }
-  
+
         if (selectSort === "ascending") {
           return priceA.price - priceB.price;
         }
-  
+
         if (selectSort === "descending") {
           return priceB.price - priceA.price;
         }
-      })
+      });
       setProductsData(productsCopyDefault);
     }
   };
@@ -139,17 +156,29 @@ const Shop = () => {
       <section>
         <Container>
           <Row>
-            <Col lg="2" md="6"className="mt-4">
+            <Col lg="2" md="6" className="mt-4">
               <Row>
                 <Col xs="6" lg="12" className="filter__widget">
                   <ul>
                     <h6>Danh Mục</h6>
-                    <li onClick={() => handleFilter("all")}><i className="ri-plant-line"></i>Tất Cả Cây Cảnh</li>
-                    <li onClick={() => handleFilter("thuy-sinh")}><i className="ri-plant-line"></i>Cây cảnh thủy sinh</li>
-                    <li onClick={() => handleFilter("de-ban")}><i className="ri-plant-line"></i>Cây Cảnh Để Bàn</li>
-                    <li onClick={() => handleFilter("sen-da-xuong-rong")}><i className="ri-plant-line"></i>Sen đá, xương rồng</li>
-                    <li onClick={() => handleFilter("noi-that")}><i className="ri-plant-line"></i>Cây cảnh nội thất</li>
-                    <li onClick={() => handleFilter("bonsai")}><i className="ri-plant-line"></i>Cây bonsai</li>
+                    <li onClick={() => handleFilter("all")}>
+                      <i className="ri-plant-line"></i>Tất Cả Cây Cảnh
+                    </li>
+                    <li onClick={() => handleFilter("thuy-sinh")}>
+                      <i className="ri-plant-line"></i>Cây cảnh thủy sinh
+                    </li>
+                    <li onClick={() => handleFilter("de-ban")}>
+                      <i className="ri-plant-line"></i>Cây Cảnh Để Bàn
+                    </li>
+                    <li onClick={() => handleFilter("sen-da-xuong-rong")}>
+                      <i className="ri-plant-line"></i>Sen đá, xương rồng
+                    </li>
+                    <li onClick={() => handleFilter("noi-that")}>
+                      <i className="ri-plant-line"></i>Cây cảnh nội thất
+                    </li>
+                    <li onClick={() => handleFilter("bonsai")}>
+                      <i className="ri-plant-line"></i>Cây bonsai
+                    </li>
                   </ul>
                 </Col>
                 <Col xs="6" lg="12" className="filter__widget">
@@ -177,15 +206,42 @@ const Shop = () => {
                   <Row>
                     {productsData.length === 0 ? (
                       loading ? (
-                        <ReactLoading className="loading__react mt-4" type={"spin"} color={'#1d6233'} height={110} width={110}/>
+                        <ReactLoading
+                          className="loading__react mt-4"
+                          type={"spin"}
+                          color={"#1d6233"}
+                          height={110}
+                          width={110}
+                        />
                       ) : (
-                        <ProductsList data={products} />
-
+                        <>
+                          <ProductsList data={currentproducts} />
+                          <Pagination
+                            currentPage={currentPage}
+                            postsPerPage={postsPerPage}
+                            totalPosts={products.length}
+                            paginate={paginate}
+                          />
+                        </>
                       )
                     ) : loading ? (
-                        <ReactLoading className="loading__react mt-4" type={"spin"} color={'#1d6233'} height={110} width={110} />
+                      <ReactLoading
+                        className="loading__react mt-4"
+                        type={"spin"}
+                        color={"#1d6233"}
+                        height={110}
+                        width={110}
+                      />
                     ) : (
-                      <ProductsList data={productsData} />
+                      <>
+                        <ProductsList data={currentproducts} />
+                        <Pagination
+                          currentPage={currentPage}
+                          postsPerPage={postsPerPage}
+                          totalPosts={productsData.length}
+                          paginate={paginate}
+                        />
+                      </>
                     )}
                   </Row>
                 </Container>
