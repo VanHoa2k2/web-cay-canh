@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import "../../styles/pagination.css"
 
 const Pagination = ({ currentPage, postsPerPage, totalPosts, paginate }) => {
-    const [activeState, setActiveState] = useState(1)
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {

@@ -19,7 +19,7 @@ const Users = () => {
       <Container>
         <Row>
           <Col lg="12">
-            <h4 className="fw-bold">Users</h4>
+            <h4 className="fw-bold">Người Dùng</h4>
           </Col>
           <Col lg="12" className="pt-5">
             <table className="table">

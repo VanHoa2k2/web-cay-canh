@@ -248,9 +248,9 @@ const Header = () => {
                         <span className="logOut" onClick={logout}>
                           <i className="ri-logout-box-r-line"></i> Đăng xuất
                         </span>
-                        <Link to="/admin" onClick={() => setVisible(false)}>
+                        {/* <Link to="/admin" onClick={() => setVisible(false)}>
                           <i className="ri-folder-user-line"></i> Admin
-                        </Link>
+                        </Link> */}
                       </div>
                     ) : (
                       <div className="d-flex justify-content-center flex-column">
@@ -260,9 +260,9 @@ const Header = () => {
                         <Link to="/dang-nhap" onClick={() => setVisible(false)}>
                           <i className="ri-login-box-line"></i> Đăng nhập
                         </Link>
-                        <Link to="/admin" onClick={() => setVisible(false)}>
+                        {/* <Link to="/admin" onClick={() => setVisible(false)}>
                           <i className="ri-folder-user-line"></i> Admin
-                        </Link>
+                        </Link> */}
                       </div>
                     )}
                   </div>

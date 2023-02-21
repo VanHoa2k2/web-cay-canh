@@ -40,10 +40,15 @@ const Login = () => {
   
         const user = userCredential.user;
   
-        console.log(user);
+        console.log(user.email);
         setLoading(false);
-        toast.success("Đăng nhập thành công");
-        navigate('/trang-chu');
+        if(user.email === "admin@gmail.com") {
+          toast.success("Đăng nhập thành công");
+          navigate('/admin');
+        } else {
+          toast.success("Đăng nhập thành công");
+          navigate('/trang-chu');
+        }
       } catch (error) {
         setLoading(false);
         toast.error("Đăng nhập thất bại");

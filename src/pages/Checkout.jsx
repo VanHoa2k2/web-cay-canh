@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, FormGroup } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
@@ -11,9 +11,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const Checkout = () => {
-  const totalQty = useSelector((state) => state.cart.totalQuantity);
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const shipping = 20000;
   const dispatch = useDispatch();
@@ -52,12 +54,19 @@ const Checkout = () => {
     }),
 
     onSubmit: async (values) => {
-      const { username, email, phone, address, zipcode, country } = values;
-      console.log(username);
-      console.log(totalAmount + shipping);
-      toast.success("Đặt Hàng Thành Công");
-      navigate("/thanh-toan-thanh-cong");
-      dispatch(cartActions.deleteAllItems())
+      const { username, email, phone, address,province, zipcode, country } = values;
+      const billProduct = cartItems
+      const bill = { username, email, phone, address,province, zipcode, country, totalAmount, totalQuantity, billProduct }
+      const url = 'http://localhost:5000/json_HoaDon'
+      const res = await axios.post(url,bill);
+      const result = res.data;
+      if (!result) {
+        toast.error("Lỗi");
+      } else {
+        toast.success("Đặt Hàng Thành Công");
+        navigate("/thanh-toan-thanh-cong");
+        dispatch(cartActions.deleteAllItems())
+      }
     },
   });
 
@@ -181,7 +190,7 @@ const Checkout = () => {
               <Col>
                 <div className="checkout__cart">
                   <h6>
-                    Tổng Số Lượng: <span>{totalQty} Sản Phẩm</span>
+                    Tổng Số Lượng: <span>{totalQuantity} Sản Phẩm</span>
                   </h6>
                   <h6>
                     Thành Tiền:{" "}

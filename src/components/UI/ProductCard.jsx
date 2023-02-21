@@ -39,7 +39,7 @@ const ProductCard = ({ item }) => {
           price: item.price,
         })
       );
-      toast.success("Sản phẩm đã được gỡ vào mục yêu thích");
+      toast.success("Sản phẩm đã được thêm vào mục yêu thích");
     } else {
       dispatch(favoriteActions.deleteLoveItem(item._id));
     }

@@ -14,6 +14,7 @@ import AddProduct from '../admin/AddProduct'
 import AllProducts from '../admin/AllProducts'
 import Dashboard from '../admin/Dashboard'
 import Users from '../admin/Users'
+import Orders from '../admin/Orders'
 
 const Routers = () => {
   return <Routes>
@@ -28,6 +29,7 @@ const Routers = () => {
       <Route path='thanh-toan-thanh-cong' element={<CheckoutSuccess/>}/>
       <Route path='admin' element={<Dashboard/>}/>
       <Route path='admin/all-products' element={<AllProducts/>}/>
+      <Route path='admin/orders' element={<Orders/>}/>
       <Route path='admin/add-product' element={<AddProduct/>}/>
       <Route path='admin/users' element={<Users/>}/>
     </Route>
