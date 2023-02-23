@@ -7,12 +7,20 @@ import { cartActions } from "../redux/slices/cartSlice";
 import { Container, Row, Col } from "reactstrap";
 import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-  console.log(cartItems)
+  const navigate = useNavigate();
+  const payProducts = () => {
+    if(totalAmount === 0) {
+      toast.warning("Không có sản phẩm trong giỏ để thanh toán")
+    } else {
+      navigate("/thanh-toan")
+    }
+  }
   return (
     <Helmet title="Giỏ Hàng">
       <CommonSection title="Giỏ Hàng" />
@@ -55,8 +63,8 @@ const Cart = () => {
                 thuế và phí vận chuyển sẽ được tính khi thanh toán
               </p>
               <div>
-                <button className="buy__btn btn__checkOut">
-                  <Link className="checkOut" to="/thanh-toan">Thanh Toán</Link>
+                <button className="buy__btn btn__checkOut checkOut" onClick={() => payProducts()}>
+                  Thanh Toán
                 </button>
                 <button className="buy__btn btn__checkOut mt-3">
                   <Link className="checkOut" to="/cua-hang">Quay Lại Cửa Hàng</Link>

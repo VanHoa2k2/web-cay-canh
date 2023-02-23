@@ -17,7 +17,7 @@ const Checkout = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const shipping = 20000;
+  const shipping = 30000;
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -40,16 +40,15 @@ const Checkout = () => {
           /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
           "Vui lòng nhập địa chỉ email hợp lệ"
         ),
-      phone: Yup.number()
+      phone: Yup.string()
         .typeError("Đó không phải là số điện thoại")
         .required("Vui lòng nhập trường này")
-        .min(10, "Số điện thoại phải đủ 10 số"),
+        .length(9, "Số điện thoại phải đủ 10 số"),
       address: Yup.string().required("Vui lòng nhập trường này"),
       province: Yup.string().required("Vui lòng nhập trường này"),
       zipcode: Yup.string()
         .required("Vui lòng nhập trường này")
-        .length(5,"Zipcode phải có chính xác 5 ký tự")
-        .matches(/^[0-9]{5}/,'Mã zip phải khớp với mã sau: "/^[0-9]{5}/"'),
+        .length(5,"Mã bưu chính phải có chính xác 5 số"),
       country: Yup.string().required("Vui lòng nhập trường này"),
     }),
 
@@ -159,7 +158,7 @@ const Checkout = () => {
                     <input
                       id="zipcode"
                       name="zipcode"
-                      type="text"
+                      type="number"
                       placeholder="Mã Bưu Điện"
                       value={formik.values.zipcode}
                       onChange={formik.handleChange}
