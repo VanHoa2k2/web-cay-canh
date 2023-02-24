@@ -8,7 +8,6 @@ import '../styles/checkoutSuccess.css'
 
 const CheckoutSuccess = () => {
   const [codeBill, setCodeBill] = useState(0);
-  console.log(codeBill)
   const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 

@@ -56,7 +56,7 @@ const Checkout = () => {
       const { username, email, phone, address,province, zipcode, country } = values;
       const billProduct = cartItems
       const bill = { username, email, phone, address,province, zipcode, country, totalAmount, totalQuantity, billProduct }
-      const url = 'http://localhost:5000/json_HoaDon'
+      const url = 'https://json-cay-canh.vercel.app/json_HoaDon'
       const res = await axios.post(url,bill);
       const result = res.data;
       if (!result) {
