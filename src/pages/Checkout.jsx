@@ -1,26 +1,61 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, FormGroup } from "reactstrap";
-import Helmet from "../components/Helmet/Helmet";
-import CommonSection from "../components/UI/CommonSection";
-import { cartActions } from "../redux/slices/cartSlice";
-
-import "../styles/Checkout.css";
 import { useDispatch, useSelector } from "react-redux";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
+
+import useAuth from "../custom-hooks/useAuth";
+import Helmet from "../components/Helmet/Helmet";
+import CommonSection from "../components/UI/CommonSection";
+import { cartActions } from "../redux/slices/cartSlice";
+import "../styles/Checkout.css";
+import { db } from "../firebase.config";
 
 const Checkout = () => {
+  const [products, setProducts] = useState([]);
+  const [bankTransfer, setBankTransfer] = useState(false);
+
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const shipping = 30000;
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
+
+  const updateUser = async (billProduct) => {
+    console.log(billProduct);
+
+    const docRef = doc(db, "users", currentUser.uid);
+    const docSnap = await getDoc(docRef);
+    console.log(docSnap.data().purchaseOrders);
+    await updateDoc(doc(db, "users", currentUser.uid), {
+      purchaseOrders: docSnap.data().purchaseOrders.concat(billProduct),
+    });
+    console.log(docSnap.data());
+  };
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const res = await axios.get(
+        "https://json-cay-canh.vercel.app/json_CayCanh"
+      );
+      // const datas = res.data
+      //   console.log(datas)
+      // cartItems.forEach(cartItem => {
+      //   console.log(cartItem)
+      //   const datasCanPut = datas.filter(data => data._id === cartItem.id)
+      //   console.log(datasCanPut)
+      // })
+
+      setProducts(res.data);
+    };
+    fetchApi();
+  }, []);
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -30,6 +65,7 @@ const Checkout = () => {
       province: "",
       zipcode: "",
       country: "",
+      bankTransfer: "",
     },
 
     validationSchema: Yup.object({
@@ -48,26 +84,61 @@ const Checkout = () => {
       province: Yup.string().required("Vui lòng nhập trường này"),
       zipcode: Yup.string()
         .required("Vui lòng nhập trường này")
-        .length(5,"Mã bưu chính phải có chính xác 5 số"),
+        .length(5, "Mã bưu chính phải có chính xác 5 số"),
       country: Yup.string().required("Vui lòng nhập trường này"),
+      bankTransfer: bankTransfer ? Yup.string().required("Vui lòng nhập trường này") : '',
     }),
 
     onSubmit: async (values) => {
-      const { username, email, phone, address,province, zipcode, country } = values;
-      const billProduct = cartItems
-      const bill = { username, email, phone, address,province, zipcode, country, totalAmount, totalQuantity, billProduct }
-      const url = 'https://json-cay-canh.vercel.app/json_HoaDon'
-      const res = await axios.post(url,bill);
+      toast.success("Đặt Hàng Thành Công");
+      navigate("/thanh-toan-thanh-cong");
+      dispatch(cartActions.deleteAllItems());
+
+      const { username, email, phone, address, province, zipcode, country } =
+        values;
+      const billProduct = cartItems;
+      const bill = {
+        username,
+        email,
+        phone,
+        address,
+        province,
+        zipcode,
+        country,
+        totalAmount,
+        totalQuantity,
+        billProduct,
+      };
+      const url = "https://json-cay-canh.vercel.app/json_HoaDon";
+      const res = await axios.post(url, bill);
       const result = res.data;
+      console.log(result);
+
       if (!result) {
         toast.error("Lỗi");
       } else {
-        toast.success("Đặt Hàng Thành Công");
-        navigate("/thanh-toan-thanh-cong");
-        dispatch(cartActions.deleteAllItems())
+        updateUser(billProduct);
       }
+
+      cartItems.forEach(cartItem => {
+        const productsCanPut = products.filter(product => product._id === cartItem.id)
+        console.log(productsCanPut)
+        const currentPurchases = productsCanPut[0].purchases
+        const newPurchases = currentPurchases + cartItem.quantity
+        console.log(currentPurchases)
+        console.log(cartItem.quantity)
+        console.log(currentPurchases + cartItem.quantity)
+        const putProducts = async () => {
+          const url = `https://json-cay-canh.vercel.app/json_CayCanh/${productsCanPut[0]._id}`
+          const res = await axios.put(url, { purchases: newPurchases });
+          const datas = res.data
+            console.log(datas)
+        };
+        putProducts();
+      })
     },
   });
+
 
   return (
     <Helmet title="Thanh Toán">
@@ -218,6 +289,49 @@ const Checkout = () => {
                       VNĐ
                     </span>
                   </h4>
+                  <div>
+                    <h5>Chọn phương thức thanh toán:</h5>
+                    <input
+                      type="radio"
+                      id="bank_transfer"
+                      name="fav_language"
+                      value="bank_transfer"
+                      onClick={() => setBankTransfer(true)}
+                    />
+                    <label for="bank_transfer">Chuyển khoản</label>
+                    <input
+                      type="radio"
+                      id="cash_payment"
+                      name="fav_language"
+                      value="cash_payment"
+                      onClick={() => setBankTransfer(false)}
+                    />
+                    <label for="cash_payment">Tiền mặt</label>
+
+                    {bankTransfer ? (
+                      <div className="import_bank_transfer">
+                        <h6>Nhập số tài khoản ngân hàng của bạn:</h6>
+                        <FormGroup className="form__group">
+                          <input
+                            id="bankTransfer"
+                            name="bankTransfer"
+                            type="text"
+                            placeholder="Số tk ngân hàng"
+                            value={formik.values.bankTransfer}
+                            onChange={formik.handleChange}
+                            className={
+                              formik.errors.bankTransfer && "errorOutline"
+                            }
+                          />
+                          {formik.errors.address && (
+                            <p className="errorMsg">{formik.errors.address}</p>
+                          )}
+                        </FormGroup>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                   <button type="submit" className="buy__btn auth__btn w-100">
                     Đặt Hàng
                   </button>

@@ -13,7 +13,7 @@ const AllProducts = () => {
   useEffect(() => {
     const fetchApi = async () => {
       const res = await axios.get(
-        "https://json-cay-canh-ntv9jklzz-vanhoa2k2.vercel.app/json_CayCanh"
+        "https://json-cay-canh.vercel.app/json_CayCanh"
       );
       setProducts(res.data);
       setLoading(false);
@@ -22,7 +22,7 @@ const AllProducts = () => {
   }, []);
 
   const deleteProduct = async (id) => {
-    const url = `https://json-cay-canh-ntv9jklzz-vanhoa2k2.vercel.app/json_CayCanh/${id}`;
+    const url = `https://json-cay-canh.vercel.app/json_CayCanh/${id}`;
     const res = await axios.delete(url);
     const result = res.data;
     if (result !== "Delete successfully!") {

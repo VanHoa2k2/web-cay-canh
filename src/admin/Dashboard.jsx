@@ -15,7 +15,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchApi = async() => {
-      const res = await axios.get("https://json-cay-canh-ntv9jklzz-vanhoa2k2.vercel.app/json_CayCanh")
+      const res = await axios.get("https://json-cay-canh.vercel.app/json_CayCanh")
       setProducts(res.data)
       setLoading(false)
     }

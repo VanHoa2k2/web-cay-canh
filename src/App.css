@@ -25,6 +25,10 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+.mt-6 {
+  margin-top: 5.5rem
+}
+
 h1,
 h2,
 h3,

@@ -8,6 +8,8 @@ import Checkout from '../pages/Checkout'
 import CheckoutSuccess from '../pages/CheckoutSuccess'
 import Login from '../pages/Login'
 import Signup from '../pages/Signup'
+import Profile from '../pages/Profile'
+
 import ProtectedRoute from '../Routers/ProtectedRoute'
 
 import AddProduct from '../admin/AddProduct'
@@ -32,6 +34,7 @@ const Routers = () => {
       <Route path='admin/orders' element={<Orders/>}/>
       <Route path='admin/add-product' element={<AddProduct/>}/>
       <Route path='admin/users' element={<Users/>}/>
+      <Route path='profile' element={<Profile/>}/>
     </Route>
 
     {/* <Route path='checkout' element={<ProtectedRoute><Checkout/></ProtectedRoute>}/> */}

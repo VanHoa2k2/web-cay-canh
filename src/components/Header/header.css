@@ -213,7 +213,7 @@
 }
 
 .profile__actions {
-    width: 140px;
+    width: 160px;
     z-index: 10;
     padding: 4px 0 4px;
     background: var(--card-bg-01);
@@ -226,7 +226,8 @@
 .profile__actions a {
     display: flex;
     align-items: center;
-    padding-left: 16px;
+    padding-left: 12px;
+    line-height: 32px;
 }
 
 .profile__actions span i,

@@ -31,11 +31,11 @@ const nav__links = [
   },
   {
     path: "cua-hang",
-    display: "Cửa Hàng",
+    display: "Cửa hàng",
   },
   {
     path: "gio-hang",
-    display: "Giỏ Hàng",
+    display: "Giỏ hàng",
   },
 ];
 
@@ -44,7 +44,7 @@ const Header = () => {
 
   useEffect(() => {
     const fetchApi = async() => {
-      const res = await axios.get("https://json-cay-canh-ntv9jklzz-vanhoa2k2.vercel.app/json_CayCanh")
+      const res = await axios.get("https://json-cay-canh.vercel.app/json_CayCanh")
       setProducts(res.data)
     }
     fetchApi()
@@ -143,7 +143,7 @@ const Header = () => {
               <div className="logo">
                 <img src={logo} alt="" />
                 <div>
-                  <h1>Độc Lạ</h1>
+                  <h1>Website</h1>
                   <p>Cây Cảnh</p>
                 </div>
               </div>
@@ -245,6 +245,9 @@ const Header = () => {
                   >
                     {currentUser ? (
                       <div className="d-flex justify-content-center flex-column">
+                        <Link to="/profile" className="logOut">
+                          <i class="ri-user-line"></i> Trang cá nhân
+                        </Link>
                         <span className="logOut" onClick={logout}>
                           <i className="ri-logout-box-r-line"></i> Đăng xuất
                         </span>

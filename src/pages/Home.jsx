@@ -1,50 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Col, Container, Row } from "reactstrap";
-import ReactLoading from 'react-loading';
 
 import Helmet from "../components/Helmet/Helmet";
 import "../styles/home.css";
 import decorateImg from "../assets/images/xbg_tit.png.pagespeed.ic.vrv94MdjpM.png";
 import Services from "../services/Services";
-import ProductsList from "../components/UI/ProductsList";
 import Clock from "../components/UI/Clock";
 import CategorySection from "../components/UI/CategorySection";
+import TrendingProductsSection from "../components/UI/TrendingProductsSection";
+import NewProductsSection from "../components/UI/NewProductsSection";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchApi = async () => {
-      const res = await axios.get(
-        "https://json-cay-canh-ntv9jklzz-vanhoa2k2.vercel.app/json_CayCanh"
-      );
-      setProducts(res.data);
-      setLoading(false);
-    };
-    fetchApi();
-  }, []);
-
-  const [trendingProducts, setTrendingProducts] = useState([]);
-  const [newProducts, setNewProducts] = useState([]);
   const year = new Date().getFullYear();
-
-  useEffect(() => {
-    const filteredTrendingProducts = products.filter(
-      (item) => item.trendingProduct === true
-    );
-
-    const filteredNewProducts = products.filter(
-      (item) => item.newProduct === true
-    );
-
-    setTrendingProducts(filteredTrendingProducts);
-    setNewProducts(filteredNewProducts);
-  }, [products]);
 
   return (
     <Helmet title={"Trang Chủ"}>
@@ -82,20 +52,7 @@ const Home = () => {
       <Services />
 
       <section className="trending__products">
-        <Container>
-          <Row>
-            <Col lg="12" className="text-center mb-4">
-              <img src={decorateImg} alt="" className="decorate__img" />
-              <h2 className="section__title">Cây Cảnh Bán Chạy</h2>
-            </Col>
-
-            {loading ? (
-                <ReactLoading className="loading__react" type={"spin"} color={'#1d6233'} height={80} width={80} />
-            ) : (
-              <ProductsList data={trendingProducts} />
-            )}
-          </Row>
-        </Container>
+        <TrendingProductsSection />
       </section>
 
       <section className="timer__count">
@@ -115,7 +72,7 @@ const Home = () => {
                 whileTap={{ scale: 1.2 }}
                 className="buy__btn store__btn"
               >
-                <Link to="/cua-hang">Cửa Hàng</Link>
+                <Link to="/cua-hang">Cửa hàng</Link>
               </motion.button>
             </Col>
           </Row>
@@ -123,19 +80,7 @@ const Home = () => {
       </section>
 
       <section className="new__arrivals">
-        <Container>
-          <Row>
-            <Col lg="12" className="text-center mb-4">
-              <img src={decorateImg} alt="" className="decorate__img" />
-              <h2 className="section__title">Sản Phẩm Mới</h2>
-            </Col>
-            {loading ? (
-              <ReactLoading className="loading__react" type={"spin"} color={'#1d6233'} height={80} width={80} />
-            ) : (
-              <ProductsList data={newProducts} />
-            )}
-          </Row>
-        </Container>
+        <NewProductsSection />
       </section>
 
       <section className="popular__category">
@@ -143,7 +88,7 @@ const Home = () => {
           <Row>
             <Col lg="12" className="text-center mb-4">
               <img src={decorateImg} alt="" className="decorate__img" />
-              <h2 className="section__title">Danh Mục Nổi Bật</h2>
+              <h2 className="section__title">Danh mục nổi bật</h2>
             </Col>
             <CategorySection />
           </Row>

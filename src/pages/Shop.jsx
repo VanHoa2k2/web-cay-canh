@@ -21,7 +21,7 @@ const Shop = () => {
   useEffect(() => {
     const fetchApi = async () => {
       const res = await axios.get(
-        "https://json-cay-canh-ntv9jklzz-vanhoa2k2.vercel.app/json_CayCanh"
+        "https://json-cay-canh.vercel.app/json_CayCanh"
       );
       setProducts(res.data);
       setLoading(false);
@@ -33,15 +33,15 @@ const Shop = () => {
   const location = useLocation();
   const valueLocation = location.state;
   const valueHome = valueLocation && valueLocation.valueCategory;
-  console.log(productsData)
-  // Get current posts
+
+  // Get current pages
   const indexOfLastproduct = currentPage * postsPerPage;
   const indexOfFirstproduct = indexOfLastproduct - postsPerPage;
   const currentproducts =
     productsData.length === 0
       ? products.slice(indexOfFirstproduct, indexOfLastproduct)
       : productsData.slice(indexOfFirstproduct, indexOfLastproduct);
-  console.log(currentproducts)
+
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -156,7 +156,7 @@ const Shop = () => {
       <section>
         <Container>
           <Row>
-            <Col lg="2" md="6" className="mt-4">
+            <Col lg="2" md="6" className="mt-10">
               <Row>
                 <Col xs="6" lg="12" className="filter__widget">
                   <ul>

@@ -14,6 +14,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
+import { GlassMagnifier } from "react-image-magnifiers";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -31,7 +32,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchApi = async () => {
       const res = await axios.get(
-        "https://json-cay-canh-ntv9jklzz-vanhoa2k2.vercel.app/json_CayCanh"
+        "https://json-cay-canh.vercel.app/json_CayCanh"
       );
       setProducts(res.data);
     };
@@ -51,6 +52,7 @@ const ProductDetails = () => {
     price,
     description,
     category,
+    size,
     intro,
     characteristics,
     meaning,
@@ -108,7 +110,12 @@ const ProductDetails = () => {
               <Slider {...settings} asNavFor={nav2} ref={slider1}>
                 {product &&
                   productImg.map((item, i) => (
-                    <img key={i} src={item.imgUrl} alt="" />
+                    <GlassMagnifier
+                      imageSrc={item.imgUrl}
+                      imageAlt="Example"
+                      zoomFactor={5}
+                      magnifierSize="35%"
+                    />
                   ))}
               </Slider>
               <Slider
@@ -121,7 +128,7 @@ const ProductDetails = () => {
               >
                 {product &&
                   productImg.map((item, i) => (
-                      <img key={i} src={item.imgUrl} alt="" />
+                    <img key={i} src={item.imgUrl} alt="" />
                   ))}
               </Slider>
             </Col>
@@ -157,7 +164,9 @@ const ProductDetails = () => {
                 </span>
                 <span>{product && category}</span>
               </div>
+              {size && <h6 className="mt-2"> Kích thước: {size}</h6>}
               <p className="mt-3">{product && description}</p>
+              <p className="mt-3">Lưu ý: Giá sản phẩm đã bao gồm chậu.</p>
 
               <div className="quantity">
                 <span>Số Lượng:</span>
@@ -199,37 +208,36 @@ const ProductDetails = () => {
 
               <ul className="tab__content mt-4 ">
                 <h6>Giới Thiệu {productName}</h6>
-                {product && intro.map((item, i) => (
-                  <li key={i}>{item.introText}</li>
-                ))}
+                {product &&
+                  intro.map((item, i) => <li key={i}>{item.introText}</li>)}
               </ul>
 
               <ul className="tab__content mt-4 ">
                 <h6>Đặc điểm</h6>
-                {product && characteristics.map((item, i) => (
-                  <li key={i}>{item.characteristicsText}</li>
-                ))}
+                {product &&
+                  characteristics.map((item, i) => (
+                    <li key={i}>{item.characteristicsText}</li>
+                  ))}
               </ul>
 
               <ul className="tab__content mt-4 ">
                 <h6>Ý nghĩa phong thuỷ</h6>
-                {product && meaning.map((item, i) => (
-                  <li key={i}>{item.meaningText}</li>
-                ))}
+                {product &&
+                  meaning.map((item, i) => <li key={i}>{item.meaningText}</li>)}
               </ul>
 
               <ul className="tab__content mt-4 ">
                 <h6>Công dụng</h6>
-                {product && uses.map((item, i) => (
-                  <li key={i}>{item.usesText}</li>
-                ))}
+                {product &&
+                  uses.map((item, i) => <li key={i}>{item.usesText}</li>)}
               </ul>
 
               <ul className="tab__content mt-4 ">
                 <h6>Cách chăm sóc</h6>
-                {product && productCare.map((item, i) => (
-                  <li key={i}>{item.productCareText}</li>
-                ))}
+                {product &&
+                  productCare.map((item, i) => (
+                    <li key={i}>{item.productCareText}</li>
+                  ))}
               </ul>
             </Col>
 

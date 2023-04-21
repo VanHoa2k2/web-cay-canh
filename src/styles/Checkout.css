@@ -19,9 +19,35 @@
     margin-bottom: 20px;
 }
 
+.checkout__cart h5 {
+    margin-top: 30px;
+    margin-bottom: 12px;
+}
+
+.checkout__cart input[type="radio"]{
+    margin-right: 4px;
+}
+
+.checkout__cart label{
+    margin-right: 40px;
+}
+
 .checkout__cart h4 {
     border-top: 1px solid rgba(221,221,221, 0.253);
     padding-top: 20px;
+}
+
+.import_bank_transfer {
+    margin-top: 14px;
+}
+
+.import_bank_transfer input {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+}
+
+.import_bank_transfer h6{
+    margin-bottom: 8px;
 }
 
 .auth__btn {

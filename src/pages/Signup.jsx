@@ -85,6 +85,7 @@ const Signup = () => {
                   displayName: values.username,
                   email: values.email,
                   photoURL: downloadURL,
+                  purchaseOrders: [],
                 });
               }
             );

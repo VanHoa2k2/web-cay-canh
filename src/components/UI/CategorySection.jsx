@@ -1,10 +1,12 @@
 import React from "react";
+
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 import categoryData from "../../assets/data/categoryData";
 import "../../styles/categorySection.css";
 
 const CategorySection = () => {
+
   return (
       <Container>
         <Row>
