@@ -5,18 +5,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase.config";
 import { toast } from "react-toastify";
-import ReactLoading from 'react-loading';
-import { useFormik } from "formik"
+import ReactLoading from "react-loading";
+import { useFormik } from "formik";
 // import * as Yup from "yup"
 
 import "../styles/login.css";
 
 const Login = () => {
-  const[errEmail, setErrEmail] = useState("")
-  const[errPassword, setErrPassword] = useState("")
+  const [errEmail, setErrEmail] = useState("");
+  const [errPassword, setErrPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -30,33 +30,33 @@ const Login = () => {
 
     onSubmit: async (values) => {
       setLoading(true);
-  
+
       try {
         const userCredential = await signInWithEmailAndPassword(
           auth,
           values.email,
           values.password
         );
-  
+
         const user = userCredential.user;
-  
+
         console.log(user.email);
         setLoading(false);
-        if(user.email === "admin@gmail.com") {
+        if (user.email === "admin@gmail.com") {
           toast.success("Đăng nhập thành công");
-          navigate('/admin');
+          navigate("/admin");
         } else {
           toast.success("Đăng nhập thành công");
-          navigate('/trang-chu');
+          navigate("/trang-chu");
         }
       } catch (error) {
         setLoading(false);
         toast.error("Đăng nhập thất bại");
-        setErrEmail("Địa chỉ email của bạn là không chính xác")
-        setErrPassword("Mật khẩu của bạn là không chính xác")
+        setErrEmail("Địa chỉ email của bạn là không chính xác");
+        setErrPassword("Mật khẩu của bạn là không chính xác");
       }
-    }
-  })
+    },
+  });
 
   return (
     <Helmet title="Đăng Ký">
@@ -65,7 +65,13 @@ const Login = () => {
           <Row>
             {loading ? (
               <Col lg="12" className="text-center">
-                <ReactLoading className="loading__react mt-4" type={"spin"} color={'#1d6233'} height={80} width={80}/>
+                <ReactLoading
+                  className="loading__react mt-4"
+                  type={"spin"}
+                  color={"#1d6233"}
+                  height={80}
+                  width={80}
+                />
               </Col>
             ) : (
               <Col lg="6" className="m-auto text-center">
@@ -81,7 +87,7 @@ const Login = () => {
                       value={formik.values.email}
                       onChange={formik.handleChange}
                     />
-                    {errEmail && (<p className="errorMsg">{errEmail}</p>)}
+                    {errEmail && <p className="errorMsg">{errEmail}</p>}
                   </FormGroup>
 
                   <FormGroup className="form__group">
@@ -94,7 +100,7 @@ const Login = () => {
                       value={formik.values.password}
                       onChange={formik.handleChange}
                     />
-                    {errPassword && (<p className="errorMsg">{errPassword}</p>)}
+                    {errPassword && <p className="errorMsg">{errPassword}</p>}
                   </FormGroup>
 
                   <button type="submit" className="buy__btn auth__btn">

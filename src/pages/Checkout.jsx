@@ -86,7 +86,9 @@ const Checkout = () => {
         .required("Vui lòng nhập trường này")
         .length(5, "Mã bưu chính phải có chính xác 5 số"),
       country: Yup.string().required("Vui lòng nhập trường này"),
-      bankTransfer: bankTransfer ? Yup.string().required("Vui lòng nhập trường này") : '',
+      bankTransfer: bankTransfer
+        ? Yup.string().required("Vui lòng nhập trường này")
+        : "",
     }),
 
     onSubmit: async (values) => {
@@ -120,25 +122,22 @@ const Checkout = () => {
         updateUser(billProduct);
       }
 
-      cartItems.forEach(cartItem => {
-        const productsCanPut = products.filter(product => product._id === cartItem.id)
-        console.log(productsCanPut)
-        const currentPurchases = productsCanPut[0].purchases
-        const newPurchases = currentPurchases + cartItem.quantity
-        console.log(currentPurchases)
-        console.log(cartItem.quantity)
-        console.log(currentPurchases + cartItem.quantity)
+      cartItems.forEach((cartItem) => {
+        const productsCanPut = products.filter(
+          (product) => product._id === cartItem.id
+        );
+        const currentPurchases = productsCanPut[0].purchases;
+        const newPurchases = currentPurchases + cartItem.quantity;
         const putProducts = async () => {
-          const url = `https://json-cay-canh.vercel.app/json_CayCanh/${productsCanPut[0]._id}`
+          const url = `https://json-cay-canh.vercel.app/json_CayCanh/${productsCanPut[0]._id}`;
           const res = await axios.put(url, { purchases: newPurchases });
-          const datas = res.data
-            console.log(datas)
+          const datas = res.data;
+          console.log(datas);
         };
         putProducts();
-      })
+      });
     },
   });
-
 
   return (
     <Helmet title="Thanh Toán">
@@ -289,49 +288,6 @@ const Checkout = () => {
                       VNĐ
                     </span>
                   </h4>
-                  <div>
-                    <h5>Chọn phương thức thanh toán:</h5>
-                    <input
-                      type="radio"
-                      id="bank_transfer"
-                      name="fav_language"
-                      value="bank_transfer"
-                      onClick={() => setBankTransfer(true)}
-                    />
-                    <label for="bank_transfer">Chuyển khoản</label>
-                    <input
-                      type="radio"
-                      id="cash_payment"
-                      name="fav_language"
-                      value="cash_payment"
-                      onClick={() => setBankTransfer(false)}
-                    />
-                    <label for="cash_payment">Tiền mặt</label>
-
-                    {bankTransfer ? (
-                      <div className="import_bank_transfer">
-                        <h6>Nhập số tài khoản ngân hàng của bạn:</h6>
-                        <FormGroup className="form__group">
-                          <input
-                            id="bankTransfer"
-                            name="bankTransfer"
-                            type="text"
-                            placeholder="Số tk ngân hàng"
-                            value={formik.values.bankTransfer}
-                            onChange={formik.handleChange}
-                            className={
-                              formik.errors.bankTransfer && "errorOutline"
-                            }
-                          />
-                          {formik.errors.address && (
-                            <p className="errorMsg">{formik.errors.address}</p>
-                          )}
-                        </FormGroup>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </div>
                   <button type="submit" className="buy__btn auth__btn w-100">
                     Đặt Hàng
                   </button>

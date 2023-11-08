@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import '../../styles/clock.css'
+import "../../styles/clock.css";
 
 const Clock = () => {
   const [days, setDays] = useState();
@@ -11,7 +11,7 @@ const Clock = () => {
   let interval;
 
   const countDown = () => {
-    const destination = new Date('apr 25, 2023').getTime();
+    const destination = new Date("dec 25, 2023").getTime();
     interval = setInterval(() => {
       const now = new Date().getTime();
       const different = destination - now;
@@ -23,9 +23,7 @@ const Clock = () => {
 
       const minutes = Math.floor((different % (1000 * 60 * 60)) / (1000 * 60));
 
-      const seconds = Math.floor(
-        (different % (1000 * 60)) / 1000
-      );
+      const seconds = Math.floor((different % (1000 * 60)) / 1000);
 
       if (destination < 0) clearInterval(interval.current);
       else {
