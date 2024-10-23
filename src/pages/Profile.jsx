@@ -12,29 +12,34 @@ import ReactLoading from "react-loading";
 const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [purchases, setPurchases] = useState([]);
+  console.log(purchases);
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    console.log(currentUser);
     const docUser = async () => {
       const docRef = doc(db, "users", currentUser.uid);
       const docSnap = await getDoc(docRef);
-      setPurchases(docSnap.data().purchaseOrders);
+
+      if (docSnap.exists()) {
+        setPurchases(docSnap.data().purchaseOrders);
+      }
+
       setLoading(false);
     };
+
     docUser();
   }, [currentUser]);
 
   // xóa cây cảnh
   const deletePurchase = async (id) => {
-    const newPurchase = purchases.filter( purchase => purchase.id !== id)  
+    const newPurchase = purchases.filter((purchase) => purchase.id !== id);
     const docRef = doc(db, "users", currentUser.uid);
     const docSnap = await getDoc(docRef);
-    setPurchases(docSnap.data().purchaseOrders = newPurchase);
+    setPurchases((docSnap.data().purchaseOrders = newPurchase));
     await updateDoc(doc(db, "users", currentUser.uid), {
-      purchaseOrders: docSnap.data().purchaseOrders = newPurchase,
+      purchaseOrders: (docSnap.data().purchaseOrders = newPurchase),
     });
-  }
+  };
 
   return (
     <Helmet title={currentUser.displayName}>
