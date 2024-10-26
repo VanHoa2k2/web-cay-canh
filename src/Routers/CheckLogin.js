@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 
 const CheckLogin = () => {
   const { currentUser } = useAuth();
-  return currentUser ? <Navigate to="/trang-chu" /> : <Outlet />;
+  return !currentUser ? <Outlet /> : <Navigate to="/trang-chu" />;
 };
 
 export default CheckLogin;
